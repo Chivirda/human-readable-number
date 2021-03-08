@@ -3,7 +3,17 @@ module.exports = function toReadable (number) {
     return readableNumbers.get(number);
   }
 
-  else return `${number % 100 ? readableNumbers.get(number % 100) : ''} ${number % 10 ? readableNumbers.get(number % 10) : ''}`
+  let digits = String(number);
+
+  switch(digits.length) {
+    case 3:
+      if (number % 100 < 20) {
+        return `${readableNumbers.get(number - (number % 100))} ${number % 100 !== 0 ? readableNumbers.get(number % 100) : ''}`.trim();
+      }
+      else return `${readableNumbers.get(number - (number % 100))} ${readableNumbers.get((number % 100) - (number % 10))} ${number % 10 !== 0 ? readableNumbers.get(number % 10) : ''}`.trim();
+    case 2:
+      return `${readableNumbers.get((number % 100) - (number % 10))} ${number % 10 !== 0 ? readableNumbers.get(number % 10) : ''}`.trim();
+  }
 }
 
 
